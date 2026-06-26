@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  bank-fraud-api:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./logs:/app/logs
+      - ./database:/app/database
+    environment:
+      - DEBUG=False
+      - FLASK_ENV=production
+      - DATABASE_URL=sqlite:///./database/bank_fraud.db
+      - API_PORT=8000
+      - LOG_LEVEL=INFO
+    restart: unless-stopped
+
+  # Optional: Add PostgreSQL for production
+  # postgres:
+  #   image: postgres:15
+  #   environment:
+  #     - POSTGRES_PASSWORD=password
+  #     - POSTGRES_DB=bank_fraud
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   ports:
+  #     - "5432:5432"
+
+# volumes:
+#   postgres_data:
